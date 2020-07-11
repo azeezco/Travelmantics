@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ListActivity">
 
-    <TextView
-        android:id="@+id/tvDeals"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDeals"
+        android:layout_width="409dp"
+        android:layout_height="729dp"
         android:layout_marginStart="@dimen/txt_margin_standard"
         android:layout_marginTop="@dimen/txt_margin_standard"
         app:layout_constraintStart_toStartOf="parent"

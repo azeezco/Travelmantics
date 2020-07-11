@@ -1,60 +1,24 @@
 package com.example.travelmantics;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
+import com.example.travelmantics.databinding.ActivityListBinding;
 
 public class ListActivity extends AppCompatActivity {
-    ArrayList <TravelDeal> deals;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-    private ChildEventListener mChildListener;
+    private ActivityListBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
-        FirebaseUtil.openFbReference("traveldeals");
-        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
-        mDatabaseReference = FirebaseUtil.mDatabaseReference;
-        mChildListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                TextView tvDeals = findViewById(R.id.tvDeals);
-                TravelDeal td = snapshot.getValue(TravelDeal.class);
-                tvDeals.setText(tvDeals.getText() + "\n" + td.getTitle());
-            }
+        binding = ActivityListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        final DealAdapter adapter = new DealAdapter();
+        binding.rvDeals.setAdapter(adapter);
+        LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        binding.rvDeals.setLayoutManager(dealsLayoutManager);
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-        mDatabaseReference.addChildEventListener(mChildListener);
     }
 }
