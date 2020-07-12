@@ -20,10 +20,7 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        final DealAdapter adapter = new DealAdapter();
-        binding.rvDeals.setAdapter(adapter);
-        LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        binding.rvDeals.setLayoutManager(dealsLayoutManager);
+
 
     }
 
@@ -43,5 +40,22 @@ public class ListActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FirebaseUtil.detachListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUtil.openFbReference("traveldeals",this);
+        final DealAdapter adapter = new DealAdapter();
+        binding.rvDeals.setAdapter(adapter);
+        LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        binding.rvDeals.setLayoutManager(dealsLayoutManager);
+        FirebaseUtil.attachListener();
     }
 }
